@@ -1,0 +1,518 @@
+{
+  "scenarios": [
+    {
+      "id": "summer-orbit",
+      "label": "Summer sun orbit",
+      "kind": "solved",
+      "timesteps": 16,
+      "time_labels": [
+        "00:00",
+        "01:30",
+        "03:00",
+        "04:30",
+        "06:00",
+        "07:30",
+        "09:00",
+        "10:30",
+        "12:00",
+        "13:30",
+        "15:00",
+        "16:30",
+        "18:00",
+        "19:30",
+        "21:00",
+        "22:30"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "summer-orbit/temperature/frame_{i:04d}.png",
+          "probe_blob": "summer-orbit/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "summer-orbit/pressure/frame_{i:04d}.png",
+          "probe_blob": "summer-orbit/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "summer-orbit/wind/frame_{i:04d}.png",
+          "probe_blob": "summer-orbit/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "summer-orbit/wind/u.bin",
+            "v": "summer-orbit/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "summer-orbit/precipitation/frame_{i:04d}.png",
+          "probe_blob": "summer-orbit/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null
+    },
+    {
+      "id": "winter-orbit",
+      "label": "Winter sun orbit",
+      "kind": "solved",
+      "timesteps": 16,
+      "time_labels": [
+        "00:00",
+        "01:30",
+        "03:00",
+        "04:30",
+        "06:00",
+        "07:30",
+        "09:00",
+        "10:30",
+        "12:00",
+        "13:30",
+        "15:00",
+        "16:30",
+        "18:00",
+        "19:30",
+        "21:00",
+        "22:30"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "winter-orbit/temperature/frame_{i:04d}.png",
+          "probe_blob": "winter-orbit/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "winter-orbit/pressure/frame_{i:04d}.png",
+          "probe_blob": "winter-orbit/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "winter-orbit/wind/frame_{i:04d}.png",
+          "probe_blob": "winter-orbit/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "winter-orbit/wind/u.bin",
+            "v": "winter-orbit/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "winter-orbit/precipitation/frame_{i:04d}.png",
+          "probe_blob": "winter-orbit/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null
+    },
+    {
+      "id": "no-coriolis",
+      "label": "No Coriolis (f = 0)",
+      "kind": "solved",
+      "timesteps": 16,
+      "time_labels": [
+        "00:00",
+        "01:30",
+        "03:00",
+        "04:30",
+        "06:00",
+        "07:30",
+        "09:00",
+        "10:30",
+        "12:00",
+        "13:30",
+        "15:00",
+        "16:30",
+        "18:00",
+        "19:30",
+        "21:00",
+        "22:30"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "no-coriolis/temperature/frame_{i:04d}.png",
+          "probe_blob": "no-coriolis/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "no-coriolis/pressure/frame_{i:04d}.png",
+          "probe_blob": "no-coriolis/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "no-coriolis/wind/frame_{i:04d}.png",
+          "probe_blob": "no-coriolis/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "no-coriolis/wind/u.bin",
+            "v": "no-coriolis/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "no-coriolis/precipitation/frame_{i:04d}.png",
+          "probe_blob": "no-coriolis/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null
+    },
+    {
+      "id": "f-plane-dome",
+      "label": "Rotating-dome f-plane (uniform f)",
+      "kind": "solved",
+      "timesteps": 16,
+      "time_labels": [
+        "00:00",
+        "01:30",
+        "03:00",
+        "04:30",
+        "06:00",
+        "07:30",
+        "09:00",
+        "10:30",
+        "12:00",
+        "13:30",
+        "15:00",
+        "16:30",
+        "18:00",
+        "19:30",
+        "21:00",
+        "22:30"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "f-plane-dome/temperature/frame_{i:04d}.png",
+          "probe_blob": "f-plane-dome/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "f-plane-dome/pressure/frame_{i:04d}.png",
+          "probe_blob": "f-plane-dome/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "f-plane-dome/wind/frame_{i:04d}.png",
+          "probe_blob": "f-plane-dome/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "f-plane-dome/wind/u.bin",
+            "v": "f-plane-dome/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "f-plane-dome/precipitation/frame_{i:04d}.png",
+          "probe_blob": "f-plane-dome/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null
+    },
+    {
+      "id": "dome-absorbing",
+      "label": "Absorbing dome",
+      "kind": "solved",
+      "timesteps": 16,
+      "time_labels": [
+        "00:00",
+        "01:30",
+        "03:00",
+        "04:30",
+        "06:00",
+        "07:30",
+        "09:00",
+        "10:30",
+        "12:00",
+        "13:30",
+        "15:00",
+        "16:30",
+        "18:00",
+        "19:30",
+        "21:00",
+        "22:30"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "dome-absorbing/temperature/frame_{i:04d}.png",
+          "probe_blob": "dome-absorbing/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "dome-absorbing/pressure/frame_{i:04d}.png",
+          "probe_blob": "dome-absorbing/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "dome-absorbing/wind/frame_{i:04d}.png",
+          "probe_blob": "dome-absorbing/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "dome-absorbing/wind/u.bin",
+            "v": "dome-absorbing/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "dome-absorbing/precipitation/frame_{i:04d}.png",
+          "probe_blob": "dome-absorbing/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null
+    },
+    {
+      "id": "sphere-reference",
+      "label": "Sphere reference (idealized)",
+      "kind": "reference",
+      "timesteps": 1,
+      "time_labels": [
+        "climatology"
+      ],
+      "variables": {
+        "temperature": {
+          "frames": "sphere-reference/temperature/frame_{i:04d}.png",
+          "probe_blob": "sphere-reference/temperature/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            240.0,
+            300.0
+          ],
+          "units": "K",
+          "colormap": "inferno"
+        },
+        "pressure": {
+          "frames": "sphere-reference/pressure/frame_{i:04d}.png",
+          "probe_blob": "sphere-reference/pressure/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            988.0,
+            1038.0
+          ],
+          "units": "hPa",
+          "colormap": "RdBu_r"
+        },
+        "wind": {
+          "frames": "sphere-reference/wind/frame_{i:04d}.png",
+          "probe_blob": "sphere-reference/wind/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            40.0
+          ],
+          "units": "m/s",
+          "colormap": "cividis",
+          "components": {
+            "u": "sphere-reference/wind/u.bin",
+            "v": "sphere-reference/wind/v.bin"
+          }
+        },
+        "precipitation": {
+          "frames": "sphere-reference/precipitation/frame_{i:04d}.png",
+          "probe_blob": "sphere-reference/precipitation/grid.bin",
+          "grid_size": [
+            64,
+            64
+          ],
+          "value_range": [
+            0.0,
+            20.0
+          ],
+          "units": "mm/hr",
+          "colormap": "Blues"
+        }
+      },
+      "archive": null,
+      "source": "synthetic-earthlike-placeholder"
+    }
+  ],
+  "disc": {
+    "radius_km": 20000.0,
+    "center": "north_pole"
+  },
+  "display_size": 400,
+  "format": "display-png + float32-probe-bin (ARCHITECTURE.md \u00a73.2)"
+}

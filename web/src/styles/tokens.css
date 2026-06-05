@@ -1,0 +1,61 @@
+/*
+ * Design tokens — "celestial almanac" (Phase 4, via the frontend-design skill).
+ *
+ * An antique astronomical-chart sensibility with modern atmospheric depth: deep
+ * observatory indigo, a sharp warm amber accent (the spotlight sun), parchment
+ * text, faint azimuthal graticule lines, printed-chart grain. Fraunces (display),
+ * Newsreader (reading body), IBM Plex Mono (instrument-readout labels).
+ */
+
+:root {
+  /* --- ink / surfaces (deep indigo night) --- */
+  --ink: #080a14;
+  --ink-1: #0b0e1c;
+  --ink-2: #11152a;
+  --ink-3: #1a1f3a;
+
+  /* --- parchment / text --- */
+  --parchment: #ece3d0;
+  --parchment-dim: #b9b0a0;
+  --parchment-faint: #8a8472; /* lightened to meet WCAG AA (~5.3:1 on --ink) */
+
+  /* --- amber (the sun) — the sharp accent --- */
+  --amber: #f0a94c;
+  --amber-bright: #ffce8a;
+  --amber-deep: #b4701f;
+
+  /* --- cool secondary (faded chart blue), used sparingly --- */
+  --astro: #84a9cc;
+  --astro-deep: #41597a;
+
+  /* --- lines / hairlines --- */
+  --line: rgba(236, 227, 208, 0.12);
+  --line-strong: rgba(236, 227, 208, 0.24);
+  --line-amber: rgba(240, 169, 76, 0.32);
+
+  /* --- typography --- */
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-body: "Newsreader Variable", "Newsreader", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* fluid type scale (~1.25), editorial */
+  --text-xs: clamp(0.72rem, 0.69rem + 0.12vw, 0.78rem);
+  --text-sm: clamp(0.84rem, 0.8rem + 0.18vw, 0.95rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --text-lg: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2.2rem);
+  --text-2xl: clamp(2rem, 1.5rem + 2.4vw, 3.4rem);
+  --text-display: clamp(3.1rem, 1.2rem + 8.2vw, 9rem);
+
+  /* --- spacing / measure / radius --- */
+  --measure: 38rem; /* readable line length */
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --radius: 2px; /* sharp, instrument-like */
+  --radius-lg: 4px;
+
+  /* --- motion --- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}

@@ -1,0 +1,140 @@
+Plane Old Weather — License
+Copyright © 2026 Bow Echo LLC. All rights reserved except as granted below.
+
+================================================================================
+Why this license (rationale)
+================================================================================
+
+Plane Old Weather is SOURCE-AVAILABLE, not open source. The intent is: anyone
+may read, fork, modify, and run this project locally — for personal,
+educational, evaluation, and reference purposes — but PUBLIC DEPLOYMENT (hosting
+or serving the project, or any derivative of it, on a public network or external
+domain) is reserved to Bow Echo LLC and requires prior written permission.
+
+Three license options were evaluated against that intent:
+
+  • Business Source License 1.1 (BUSL-1.1) — A source-available license, but it
+    REQUIRES a "Change Date" no more than four years after publication, on which
+    the work AUTOMATICALLY converts to a GPL-compatible open-source license. That
+    mandatory, time-limited conversion is incompatible with a perpetual
+    restriction on public deployment, and BUSL frames its restriction around
+    "production use" rather than deployment specifically. Rejected.
+
+  • CC-BY-NC-4.0 — A Creative Commons content license. Its NonCommercial term
+    forbids commercial use but does NOT restrict non-commercial public
+    deployment, so on its own it would not stop someone from re-hosting the site
+    non-commercially. Creative Commons also advises against applying CC licenses
+    to source code. It is, however, the right fit for prose and figures, and is
+    used for them in Section 2. Rejected for the code.
+
+  • A custom source-available license — Expresses the intent most precisely and
+    enforceably: a narrow grant for local and private use, plus an explicit,
+    unambiguous prohibition on public deployment without written permission, with
+    all other rights reserved under copyright. Chosen for the code.
+
+Accordingly, this LICENSE applies a custom source-available license to the
+software (Section 1) and CC-BY-NC-4.0 to the written content and figures
+(Section 2).
+
+================================================================================
+1. Plane Old Weather Source-Available License (software)
+================================================================================
+
+This Section 1 governs the "Software": all source code, configuration, and
+tooling in this repository — everything under model/, web/ (excluding the
+written content and figures covered by Section 2), deploy/, and docs/.
+
+1.1 Definitions.
+    "Bow Echo LLC" (also "we" / "us") is the copyright holder and licensor.
+    "You" is any individual or entity exercising rights under this License.
+    "Public Deployment" means hosting, serving, publishing, providing access to,
+    or otherwise making available the Software or any derivative or modified
+    version of it — in whole or in part — to any third party over a network, the
+    internet, or any public or external domain or service (including, without
+    limitation, as a website, hosted application, or API). Building and running
+    the Software on your own machine, or on a private network for your own
+    personal, educational, evaluation, research, or development use, is NOT
+    Public Deployment.
+
+1.2 Grant. Subject to Your compliance with this License, Bow Echo LLC grants You
+    a worldwide, royalty-free, non-exclusive, non-transferable license to:
+      (a) access, view, and study the Software;
+      (b) reproduce and fork the Software;
+      (c) create modifications and derivative works of the Software; and
+      (d) build, run, and use the Software and Your modifications locally and
+          privately for personal, educational, evaluation, research, and
+          development purposes.
+
+1.3 Restriction — no public deployment. You MAY NOT engage in Public Deployment
+    of the Software, or of any derivative or modified version of it, without the
+    prior written permission of Bow Echo LLC. This is the central term of this
+    License. For clarity, and without limiting the foregoing: You may not deploy
+    this project, or a fork of it, to any public website, domain, subdomain,
+    hosting platform, or content-delivery network — whether or not for
+    commercial purposes, and whether or not you charge for access — without that
+    prior written permission.
+
+1.4 Redistribution. You may redistribute copies and forks of the Software,
+    modified or unmodified, provided that (a) You do not engage in Public
+    Deployment, (b) this License — including this Section 1 and the rationale
+    above — is included intact, and (c) the copyright notice is preserved.
+
+1.5 Reservation of rights. All rights not expressly granted in this Section 1 are
+    reserved by Bow Echo LLC. No trademark, service mark, or branding rights are
+    granted.
+
+1.6 Termination. Any Public Deployment, or any other use outside the grant in
+    Section 1.2, automatically terminates the rights granted to You under this
+    Section 1. Rights may be reinstated only in writing by Bow Echo LLC.
+
+================================================================================
+2. Written content and figures — CC-BY-NC-4.0
+================================================================================
+
+The "Content" — the written narrative (the MDX under web/src/content/), other
+prose, and the rendered model figures and imagery — is licensed under the
+Creative Commons Attribution-NonCommercial 4.0 International License
+(CC-BY-NC-4.0):
+
+    https://creativecommons.org/licenses/by-nc/4.0/
+
+You may share and adapt the Content for non-commercial purposes, with
+appropriate attribution to Bow Echo LLC, under the terms of CC-BY-NC-4.0. This
+tightens the project's earlier CC-BY-4.0 grant to non-commercial use.
+
+For the avoidance of doubt, the Section 1 restriction on Public Deployment
+governs the Software and its derivatives independently of this Content license:
+re-hosting the project as a working site or application necessarily deploys the
+Software and is therefore subject to Section 1.3, regardless of the Content's
+CC-BY-NC-4.0 terms.
+
+================================================================================
+3. Permission requests
+================================================================================
+
+To request written permission for Public Deployment, or to discuss any use not
+granted above, contact Bow Echo LLC at:
+
+    hello@bowechollc.com
+
+================================================================================
+4. Third-party components
+================================================================================
+
+This License covers only Bow Echo LLC's own original work in this repository.
+Third-party dependencies (npm and PyPI packages, fonts, and other libraries)
+remain licensed by their respective owners under their own terms.
+
+================================================================================
+5. Disclaimer of warranty and limitation of liability
+================================================================================
+
+THE SOFTWARE AND CONTENT ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO
+EVENT SHALL BOW ECHO LLC BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN
+CONNECTION WITH THE SOFTWARE OR CONTENT OR THE USE OR OTHER DEALINGS IN THEM.
+
+Copyright © 2026 Bow Echo LLC. All rights reserved except as expressly granted
+above.

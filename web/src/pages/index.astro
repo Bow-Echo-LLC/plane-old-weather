@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import NarrativeSection from "../components/scrollytelling/NarrativeSection.astro";
+import ScrollController from "../components/scrollytelling/ScrollController.astro";
+import ModelViewer from "../components/ModelViewer/ModelViewer.tsx";
+
+const chapters = (await getCollection("narrative")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const before = chapters.filter((c) => c.data.order <= 6); // §2–6
+const after = chapters.filter((c) => c.data.order >= 8); // §8–9
+---
+
+<BaseLayout>
+  <Hero />
+
+  {before.map((entry) => <NarrativeSection entry={entry} />)}
+
+  {/* §7 — the model viewer (built in Phase 6) keeps its place in the arc */}
+  <section
+    id="model"
+    class="chapter"
+    data-backdrop="dim"
+    aria-labelledby="model-h"
+  >
+    <div class="chapter__grid chapter__grid--solo shell">
+      <div class="chapter__text">
+        <p class="eyebrow" data-reveal>Chapter 07 — The model</p>
+        <h2 id="model-h" class="chapter__title" data-reveal>
+          Explore it yourself
+        </h2>
+        <div class="chapter__prose" data-reveal>
+          <p>
+            Everything so far is computed and waiting. The interactive viewer —
+            temperature, pressure, wind and rain across all six scenarios,
+            scrubbed through time and laid beside an idealized real Earth —
+            arrives next.
+          </p>
+        </div>
+        <div class="chapter__wide" data-reveal>
+          <ModelViewer client:visible />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {after.map((entry) => <NarrativeSection entry={entry} />)}
+
+  <ScrollController />
+</BaseLayout>

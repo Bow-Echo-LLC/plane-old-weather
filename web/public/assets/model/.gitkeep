@@ -1,0 +1,3 @@
+The pre-computed model asset bundle ships here: display PNGs, packed Float32
+probe .bin grids, and manifest.json — produced by model/run.py (Phase 3) and
+committed (CLAUDE.md). The viewer reads manifest.json and hard-codes nothing.

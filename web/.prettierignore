@@ -1,0 +1,6 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+# The shipped model bundle is generated, not hand-formatted.
+public/assets/model/

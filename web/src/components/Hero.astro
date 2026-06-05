@@ -1,0 +1,150 @@
+---
+const DISCLAIMER =
+  "The Earth is not flat. This is a physics thought experiment exploring what weather would look like if it were — and why that model fails.";
+---
+
+<section class="hero" aria-label="Introduction">
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="hero__inner shell">
+    <p class="eyebrow reveal" style="--d: 0.1s">
+      Flat-earth weather, modeled honestly
+    </p>
+
+    <h1 class="hero__title reveal" style="--d: 0.22s">
+      Plane Old<br />Weather
+    </h1>
+
+    <p class="hero__tagline reveal" style="--d: 0.36s">
+      Take the flat Earth seriously as physics — a disc, an ice wall, a dome, a
+      small close sun — and build the most honest weather model those rules
+      allow. Then watch, precisely, where it breaks.
+    </p>
+
+    <p class="disclaimer hero__disclaimer reveal" style="--d: 0.5s">
+      {DISCLAIMER}
+    </p>
+  </div>
+
+  <a class="hero__cue reveal" style="--d: 0.66s" href="#premise">
+    <span class="mono">scroll</span>
+    <span class="hero__cue-rule" aria-hidden="true"></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-block: 7rem 3.5rem;
+    overflow: clip;
+  }
+
+  /* Localised scrim so the lower-left text stays legible over the scene. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(70% 60% at 18% 88%, rgba(6, 7, 14, 0.7), transparent 70%),
+      linear-gradient(to top, rgba(6, 7, 14, 0.55), transparent 42%);
+  }
+
+  .hero__inner {
+    width: min(100% - var(--gutter) * 2, 76rem);
+  }
+
+  .hero__title {
+    margin-block: 0.5rem 0;
+    font-size: var(--text-display);
+    line-height: 0.9;
+    font-weight: 560;
+    letter-spacing: -0.025em;
+    color: var(--parchment);
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 28,
+      "WONK" 1;
+    text-shadow: 0 2px 40px rgba(6, 7, 14, 0.6);
+  }
+
+  .hero__tagline {
+    margin-block-start: 1.7rem;
+    max-width: 33rem;
+    font-size: var(--text-lg);
+    line-height: 1.5;
+    color: var(--parchment-dim);
+    font-style: italic;
+    font-variation-settings: "opsz" 28;
+  }
+
+  .hero__disclaimer {
+    margin-block-start: 1.8rem;
+    max-width: 30rem;
+  }
+
+  .hero__cue {
+    position: absolute;
+    inset-block-end: 2rem;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    color: var(--parchment-faint);
+    font-size: var(--text-xs);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .hero__cue-rule {
+    width: 1px;
+    height: 3.2rem;
+    background: linear-gradient(to bottom, var(--amber), transparent);
+    transform-origin: top;
+    animation: cue 2.4s var(--ease) infinite;
+  }
+  .hero__cue:hover {
+    color: var(--amber);
+  }
+
+  /* Orchestrated load-in: staggered rise + fade (delays per element). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: reveal 1s var(--ease-out) both;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes reveal {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes cue {
+    0%,
+    100% {
+      transform: scaleY(0.4);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .hero__cue-rule {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+[project]
+name = "planeoldweather-model"
+version = "0.0.0"
+description = "Offline, deterministic flat-disc atmosphere simulation pipeline for planeoldweather.com"
+requires-python = ">=3.11"
+readme = { file = "../README.md", content-type = "text/markdown" }
+license = { text = "MIT" }
+authors = [{ name = "Bow Echo LLC" }]
+
+# Dependencies are tracked in requirements.txt (the documented install path),
+# not here; this file exists so ruff and pytest have a config home.
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["output", ".venv"]
+
+[tool.ruff.lint]
+# A pragmatic, pedagogical-code-friendly set: errors, pyflakes, imports,
+# bugbear, comprehensions, pyupgrade. The solver is part of the lesson, so we
+# avoid over-strict rules that would fight clear, math-heavy code.
+select = ["E", "F", "I", "B", "C4", "UP"]
+ignore = [
+    "E501",  # line length is handled by the formatter, not the linter
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+# Put model/ (the rootdir) on sys.path so tests can `import scenarios` without
+# an installed package — run.py relies on the same top-level import.
+pythonpath = ["."]

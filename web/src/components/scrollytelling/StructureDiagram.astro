@@ -1,0 +1,123 @@
+---
+// Cross-section of the flat world: disc, ice wall, firmament dome, spotlight sun.
+// Static SVG (revealed by the scroll controller); no JS required.
+---
+
+<figure class="fig structure">
+  <svg viewBox="0 0 620 420" role="img" aria-labelledby="struct-title">
+    <title id="struct-title">
+      Cross-section of the flat-earth model: a disc with the North Pole at its
+      center, an ice wall around the rim, a firmament dome overhead, and a small
+      sun circling close above.
+    </title>
+
+    <!-- stars -->
+    {
+      Array.from({ length: 36 }).map((_, i) => (
+        <circle
+          class="star"
+          cx={(i * 83.3) % 620}
+          cy={(i * 41.7) % 150}
+          r={0.5 + ((i * 7) % 3) * 0.4}
+        />
+      ))
+    }
+
+    <!-- firmament dome -->
+    <path class="dome" d="M 40 320 A 280 250 0 0 1 580 320"></path>
+    <text class="lbl" x="310" y="70" text-anchor="middle">firmament dome</text>
+
+    <!-- sun orbit + sun -->
+    <path class="orbit" d="M 150 250 A 230 70 0 0 1 470 250"></path>
+    <circle class="sun-glow" cx="406" cy="196" r="34"></circle>
+    <circle class="sun" cx="406" cy="196" r="8"></circle>
+    <line class="leader" x1="406" y1="196" x2="500" y2="150"></line>
+    <text class="lbl" x="506" y="150">spotlight sun</text>
+
+    <!-- the disc -->
+    <line class="disc" x1="60" y1="320" x2="560" y2="320"></line>
+    <line class="disc-thick" x1="60" y1="328" x2="560" y2="328"></line>
+    <text class="lbl dim" x="310" y="356" text-anchor="middle">the disc</text>
+
+    <!-- ice walls at the rim -->
+    <path class="ice" d="M 60 320 L 56 300 M 560 320 L 564 300"></path>
+    <line class="leader" x1="560" y1="312" x2="588" y2="296"></line>
+    <text class="lbl" x="540" y="290" text-anchor="end">ice wall</text>
+
+    <!-- north pole at the center -->
+    <circle class="pole" cx="310" cy="320" r="3"></circle>
+    <line class="leader" x1="310" y1="320" x2="250" y2="384"></line>
+    <text class="lbl" x="246" y="388" text-anchor="end">north pole</text>
+  </svg>
+  <figcaption class="mono">Fig. 1 — the world, in cross-section.</figcaption>
+</figure>
+
+<style>
+  .fig {
+    margin: 0;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .star {
+    fill: var(--parchment);
+    opacity: 0.5;
+  }
+  .dome {
+    fill: none;
+    stroke: var(--astro);
+    stroke-width: 1;
+    opacity: 0.55;
+  }
+  .orbit {
+    fill: none;
+    stroke: var(--line-amber);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+  .sun {
+    fill: var(--amber-bright);
+  }
+  .sun-glow {
+    fill: var(--amber);
+    opacity: 0.18;
+  }
+  .disc {
+    stroke: var(--parchment);
+    stroke-width: 1.4;
+    opacity: 0.85;
+  }
+  .disc-thick {
+    stroke: var(--astro-deep);
+    stroke-width: 5;
+    opacity: 0.6;
+  }
+  .ice {
+    stroke: var(--astro);
+    stroke-width: 2;
+    fill: none;
+  }
+  .pole {
+    fill: var(--amber);
+  }
+  .leader {
+    stroke: var(--line-strong);
+    stroke-width: 0.75;
+  }
+  .lbl {
+    fill: var(--parchment-dim);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .lbl.dim {
+    fill: var(--parchment-faint);
+  }
+  figcaption {
+    margin-top: 0.8rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    color: var(--parchment-faint);
+  }
+</style>

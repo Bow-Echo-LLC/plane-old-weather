@@ -1,0 +1,211 @@
+---
+import "@fontsource-variable/fraunces/full.css";
+import "@fontsource-variable/newsreader/opsz.css";
+import "@fontsource-variable/newsreader/opsz-italic.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "../styles/global.css";
+import DiscHero3D from "../components/DiscHero3D/DiscHero3D.tsx";
+import { DATA_URL, REPO_URL } from "../consts";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Plane Old Weather",
+  description = "A physics thought experiment: the weather a flat Earth would have — and the specific, measurable ways that model fails.",
+} = Astro.props;
+
+const DISCLAIMER =
+  "The Earth is not flat. This is a physics thought experiment exploring what weather would look like if it were — and why that model fails.";
+const year = new Date().getFullYear();
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Branded share card. Resolved to an absolute URL from the site origin —
+// relative og:image paths fail on several scrapers (iMessage, Facebook).
+const ogImage = new URL("/og-image.png", Astro.site).href;
+const ogImageAlt =
+  "Plane Old Weather — the title beside an azimuthal disc chart lit by a small amber spotlight sun on deep observatory indigo.";
+---
+
+<!doctype html>
+<html lang="en" style="background-color: #080a14">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Declare the dark scheme so browsers paint a dark canvas during
+         navigation/reload instead of a white flash. -->
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#080a14" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-touch-icon-180.png"
+    />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Plane Old Weather" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Persistent 3D canvas behind all content. SSR renders the static chart
+         fallback (the island's initial state); hydration upgrades it to WebGL. -->
+    <div class="site-bg" aria-hidden="true">
+      <DiscHero3D client:visible />
+    </div>
+    <div class="site-vignette" aria-hidden="true"></div>
+
+    <header class="masthead">
+      <div class="masthead__row shell">
+        <a class="masthead__brand mono" href="/">Plane Old Weather</a>
+        <span class="masthead__note mono"
+          >azimuthal equidistant · 90°N at center</span
+        >
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell">
+        <hr class="hairline" />
+        <p class="disclaimer site-footer__disclaimer">{DISCLAIMER}</p>
+        <nav class="site-footer__links mono" aria-label="Project links">
+          <a href={REPO_URL}>Source &#8599;</a>
+          <a href={DATA_URL}>Raw data &#8599;</a>
+        </nav>
+        <div class="site-footer__meta mono">
+          <span
+            >Source-available · public deployment by permission · CC-BY-NC-4.0
+            (content)</span
+          >
+          <span>© {year} Bow Echo LLC</span>
+          <span class="site-footer__truth"
+            >The Earth is an oblate spheroid.</span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <div class="site-grain" aria-hidden="true"></div>
+
+    <style>
+      .site-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        /* Atmospheric wash shown before/behind the canvas (and if JS never runs). */
+        background:
+          radial-gradient(
+            80% 60% at 70% 22%,
+            rgba(240, 169, 76, 0.07),
+            transparent 60%
+          ),
+          radial-gradient(
+            120% 90% at 50% 120%,
+            rgba(132, 169, 204, 0.06),
+            transparent 60%
+          ),
+          var(--ink);
+      }
+
+      .masthead {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline: 0;
+        z-index: 50;
+        padding-block: 1.4rem;
+      }
+      .masthead__row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .masthead__brand {
+        font-size: var(--text-xs);
+        font-weight: 500;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--parchment);
+        text-decoration: none;
+      }
+      .masthead__note {
+        font-size: var(--text-xs);
+        letter-spacing: 0.12em;
+        color: var(--parchment-faint);
+      }
+      @media (max-width: 36rem) {
+        .masthead__note {
+          display: none;
+        }
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+      }
+
+      .site-footer {
+        position: relative;
+        z-index: 1;
+        padding-block: 3rem 4rem;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(6, 7, 14, 0.85) 22%
+        );
+      }
+      .site-footer__disclaimer {
+        margin-block: 1.6rem;
+        max-width: var(--measure);
+      }
+      .site-footer__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 2rem;
+        font-size: var(--text-xs);
+        letter-spacing: 0.06em;
+        color: var(--parchment-faint);
+      }
+      .site-footer__truth {
+        color: var(--amber);
+      }
+      .site-footer__links {
+        display: flex;
+        gap: 1.4rem;
+        margin-block-end: 1.2rem;
+        font-size: var(--text-sm);
+      }
+      .site-footer__links a {
+        color: var(--parchment-dim);
+        text-decoration: none;
+      }
+      .site-footer__links a:hover {
+        color: var(--amber);
+      }
+    </style>
+  </body>
+</html>

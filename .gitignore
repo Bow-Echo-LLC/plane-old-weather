@@ -1,0 +1,36 @@
+# --- OS / editor ---
+.DS_Store
+*.swp
+*~
+
+# --- harness / local notes ---
+.claude/
+CLAUDE.local.md
+
+# --- Python (model/) ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# Intermediate model output. The *shipped* bundle lives in
+# web/public/assets/model/ and IS committed (see CLAUDE.md). model/output/
+# is the staging dir the pipeline writes before the copy step, so it is ignored.
+model/output/
+
+# --- Node / Astro (web/) ---
+node_modules/
+web/dist/
+web/.astro/
+.astro/
+*.log
+npm-debug.log*
+
+# --- secrets / env ---
+.env
+.env.*
+!.env.example

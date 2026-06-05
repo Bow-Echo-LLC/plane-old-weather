@@ -1,0 +1,27 @@
+# planeoldweather model pipeline — Python 3.11+
+# Offline/batch only. Nothing here ever runs in production (see CLAUDE.md).
+#
+# Floors are intentionally loose so pip resolves the newest build with a wheel
+# for your interpreter. run.py's no-op path imports only the standard library,
+# so the scaffold is runnable even before this set finishes installing.
+
+# --- core numerics ---
+numpy>=2.1
+scipy>=1.14
+
+# --- rendering: field → display PNG + colormaps ---
+matplotlib>=3.9
+pillow>=10.4
+
+# --- archival output (NetCDF) + ERA5 ingest for sphere-reference ---
+xarray>=2024.9.0
+netCDF4>=1.7
+
+# --- quality gates (CLAUDE.md: `pip install -r requirements.txt && ruff check . && pytest`) ---
+ruff>=0.6
+pytest>=8.3
+
+# --- optional acceleration ---
+# Numba JITs the solver inner loop; it is an optimization, not a requirement,
+# and its wheels can lag new Python releases. Install separately when wanted:
+#   pip install -r requirements-optional.txt

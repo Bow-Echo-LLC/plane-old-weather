@@ -1,0 +1,12 @@
+# Cloudflare Pages response headers (served from the deployed site root).
+# Content-hashed Astro assets are immutable; the pre-computed model bundle gets
+# a day of caching (it changes rarely and deliberately); HTML always revalidates.
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/model/*
+  Cache-Control: public, max-age=86400
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

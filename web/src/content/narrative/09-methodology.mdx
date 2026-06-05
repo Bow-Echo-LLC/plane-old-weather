@@ -1,0 +1,21 @@
+---
+order: 9
+eyebrow: Chapter 09 — Methodology & source
+title: How this was built
+visual: none
+backdrop: solid
+---
+
+The weather on these pages is a single-layer **shallow-water model**, the same
+lineage as the first numerical forecasts of the 1950s, solved on a Cartesian
+grid masked to a disc. It conserves mass to within rounding error, respects the
+CFL stability limit, and runs entirely offline — the site only ever serves the
+pre-computed result, never a live calculation. The real-Earth fields it is set
+against are, for now, an idealized zonal climatology — a stand-in for full ERA5
+reanalysis, which is the next dataset to fold in.
+
+None of it is hidden. The [solver and this website](https://github.com/Bow-Echo-LLC/plane-old-weather) and the [full-resolution model output](https://github.com/Bow-Echo-LLC/plane-old-weather#raw-data) are public to read, fork, run locally, and download — source-available rather than open source, so a public redeployment needs written permission (see the [license](https://github.com/Bow-Echo-LLC/plane-old-weather/blob/main/LICENSE)). And so there is no
+mistaking the exercise for a claim: **the Earth is not flat.** This is a physics
+thought experiment exploring what weather would look like if it were — and why
+that model fails. The Earth is an oblate spheroid; the worth of a flat model lies
+entirely in the precision with which it breaks.

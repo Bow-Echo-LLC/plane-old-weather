@@ -1,0 +1,70 @@
+---
+// Lenis smooth scroll + GSAP ScrollTrigger: staggered reveals on entry and
+// scrubbed line-draws for the SVG figures. The persistent 3D camera follows the
+// (Lenis-updated) native scroll position on its own. Under prefers-reduced-motion
+// none of this runs — content and figures are visible by default — and Lenis/GSAP
+// are never even downloaded (they load via dynamic import only when animating).
+---
+
+<script>
+  async function init() {
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduce) return; // nothing to animate; skip the Lenis/GSAP download
+
+    const [{ default: Lenis }, { default: gsap }, { ScrollTrigger }] =
+      await Promise.all([
+        import("lenis"),
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({ duration: 1.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // Staggered reveal as each block scrolls into view.
+    gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 26,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 86%", once: true },
+      });
+    });
+
+    // Scrub SVG figure strokes on as their chapter passes through.
+    document
+      .querySelectorAll<SVGGeometryElement>("[data-draw]")
+      .forEach((el) => {
+        let len = 0;
+        try {
+          len = el.getTotalLength();
+        } catch {
+          return;
+        }
+        if (!len) return;
+        gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+        gsap.to(el, {
+          strokeDashoffset: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el.closest(".chapter") ?? el,
+            start: "top 72%",
+            end: "center 52%",
+            scrub: true,
+          },
+        });
+      });
+
+    ScrollTrigger.refresh();
+  }
+
+  if (document.readyState !== "loading") init();
+  else window.addEventListener("DOMContentLoaded", init);
+</script>

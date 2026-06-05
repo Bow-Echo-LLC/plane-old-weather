@@ -1,0 +1,34 @@
+name: Deploy (Cloudflare Pages)
+
+# OPTIONAL, manual deploy to Cloudflare Pages. The primary path is Cloudflare
+# Pages' own Git integration, which auto-builds on push to main — see
+# deploy/cloudflare-pages.md. This workflow exists for an Actions-driven deploy;
+# it only runs when triggered by hand and needs the CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID repository secrets.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build static site
+        working-directory: web
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy web/dist --project-name=plane-old-weather

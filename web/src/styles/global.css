@@ -1,0 +1,654 @@
+@import "./tokens.css";
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--ink);
+  color: var(--parchment-dim);
+  font-family: var(--font-body);
+  font-optical-sizing: auto;
+  font-size: var(--text-base);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  /* Deep observatory wash: a warm amber breath low-left, cool depth elsewhere. */
+  background-image:
+    radial-gradient(
+      120% 80% at 12% 108%,
+      rgba(240, 169, 76, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      90% 70% at 88% -10%,
+      rgba(132, 169, 204, 0.08),
+      transparent 55%
+    );
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--parchment);
+  text-decoration-color: var(--line-amber);
+  text-underline-offset: 0.2em;
+  transition: color 0.25s var(--ease);
+}
+a:hover {
+  color: var(--amber-bright);
+}
+
+/* Keyboard skip link — visually hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 100;
+  transform: translateY(-180%);
+  padding: 0.55rem 0.95rem;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: transform 0.18s var(--ease);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Hero layers: the static chart fills the backdrop; the WebGL scene fades in
+   over it so the 2D -> 3D hand-off is a smooth resolve rather than a hard cut. */
+.hero-fallback,
+.disc-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.disc-canvas {
+  animation: disc-fade-in 0.9s var(--ease) both;
+}
+@keyframes disc-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  color: var(--parchment);
+  font-weight: 540;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+h3 {
+  font-size: var(--text-xl);
+  font-weight: 500;
+}
+
+p {
+  max-width: var(--measure);
+}
+
+/* Instrument-readout label: small-caps mono, letter-spaced. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* The standing scientific disclaimer (hero + footer + methods). */
+.disclaimer {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--parchment-dim);
+  border-left: 1px solid var(--line-amber);
+  padding-left: 1rem;
+}
+
+/* ============================================================
+   Layout helpers
+   ============================================================ */
+
+.shell {
+  width: min(100% - var(--gutter) * 2, 76rem);
+  margin-inline: auto;
+}
+
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* Faint azimuthal graticule — concentric rings, the polar-chart motif. */
+.graticule {
+  background-image: repeating-radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    transparent 0,
+    transparent calc(var(--ring, 5.5rem) - 1px),
+    var(--line) calc(var(--ring, 5.5rem) - 1px),
+    var(--line) var(--ring, 5.5rem)
+  );
+}
+
+/* ============================================================
+   Atmosphere: printed-chart grain + vignette overlays
+   ============================================================ */
+
+.site-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.42;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.site-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: radial-gradient(
+    130% 100% at 50% 36%,
+    transparent 56%,
+    rgba(4, 5, 12, 0.66) 100%
+  );
+}
+
+/* ============================================================
+   Reduced motion: drop all scrubbed/auto motion (cardinal rule)
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ============================================================
+   Smooth scroll (Lenis)
+   ============================================================ */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* ============================================================
+   Accessibility helper
+   ============================================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   Scrollytelling chapters
+   ============================================================ */
+
+.chapter {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(4.5rem, 13vh, 9rem);
+}
+.chapter[data-backdrop="scene"] {
+  background: rgba(8, 10, 20, 0.5);
+}
+.chapter[data-backdrop="dim"] {
+  background: rgba(8, 10, 20, 0.88);
+}
+.chapter[data-backdrop="solid"] {
+  background: rgba(6, 8, 15, 0.96);
+}
+
+.chapter__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.chapter__title {
+  margin-block: 0.8rem 1.4rem;
+  font-size: var(--text-2xl);
+  max-width: 18ch;
+}
+.chapter__prose p {
+  color: var(--parchment-dim);
+}
+.chapter__prose p + p {
+  margin-top: 1.1rem;
+}
+.chapter__prose strong {
+  color: var(--parchment);
+  font-weight: 600;
+}
+.chapter__wide {
+  margin-top: 2rem;
+}
+
+@media (min-width: 60rem) {
+  .chapter__grid {
+    grid-template-columns: minmax(0, 28rem) minmax(0, 1fr);
+  }
+  .chapter__grid--solo {
+    grid-template-columns: minmax(0, 46rem);
+  }
+  .chapter__visual {
+    position: sticky;
+    top: 14vh;
+  }
+}
+
+/* ============================================================
+   Figures (SVG + canvas islands)
+   ============================================================ */
+
+.fig {
+  margin: 0;
+}
+.fig-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #080a14;
+}
+.fig-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fig-tag {
+  position: absolute;
+  transform: translateX(-50%);
+  padding: 0.16rem 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--parchment-dim);
+  background: rgba(8, 10, 20, 0.6);
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.fig-tag--amber {
+  color: var(--amber);
+}
+.fig-cap {
+  margin-top: 0.8rem;
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  color: var(--parchment-faint);
+}
+
+/* ============================================================
+   Model viewer (Phase 6)
+   ============================================================ */
+
+.viewer {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(7, 9, 18, 0.7);
+  padding: clamp(0.9rem, 2vw, 1.4rem);
+}
+.viewer--notice {
+  display: grid;
+  gap: 0.6rem;
+  place-items: center;
+  text-align: center;
+  min-height: 14rem;
+  color: var(--parchment-dim);
+}
+.viewer--notice .mono {
+  color: var(--amber);
+  letter-spacing: 0.12em;
+}
+
+/* Pre-hydration / loading skeleton: a spinner over a mono caption, on the
+   site's dark theme. Honors reduced motion (the ring stops spinning). */
+.viewer--loading {
+  display: grid;
+  gap: 0.9rem;
+  place-items: center;
+  min-height: 14rem;
+}
+.viewer__spinner {
+  inline-size: 2.1rem;
+  block-size: 2.1rem;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--amber);
+  animation: viewer-spin 0.9s linear infinite;
+}
+@keyframes viewer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.viewer__loading-text {
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment-faint);
+}
+@media (prefers-reduced-motion: reduce) {
+  .viewer__spinner {
+    animation: none;
+  }
+}
+
+.viewer__stages {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.viewer__stages--split {
+  grid-template-columns: 1fr 1fr;
+}
+.viewer__stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: radial-gradient(circle at 50% 50%, #0d1326, #070912 75%);
+  overflow: hidden;
+}
+.viewer__field,
+.viewer__wind {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.viewer__field {
+  object-fit: contain;
+}
+.viewer__wind {
+  pointer-events: none;
+}
+.viewer__stage-label {
+  position: absolute;
+  inset-block-end: 0.5rem;
+  inset-inline-start: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--parchment-dim);
+  background: rgba(8, 10, 20, 0.6);
+  padding: 0.12rem 0.45rem;
+  border-radius: 2px;
+}
+
+.viewer__readout {
+  margin-block: 0.7rem 0.2rem;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--amber);
+}
+
+.viewer__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem 1.6rem;
+  padding-block-start: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+.viewer__ctl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.viewer__ctl--time {
+  flex: 1 1 16rem;
+}
+.viewer__ctl--legend {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+.viewer__ctl-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--parchment-faint);
+}
+.viewer__time {
+  color: var(--amber);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.viewer__select {
+  appearance: none;
+  background: var(--ink-2);
+  color: var(--parchment);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.viewer__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.viewer__chip {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--parchment-dim);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 0.32rem 0.7rem;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.viewer__chip:hover {
+  color: var(--parchment);
+  border-color: var(--line-amber);
+}
+.viewer__chip[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--amber);
+  border-color: var(--amber);
+}
+.viewer__chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* The compare control is a view-mode toggle, not a variable. Style it as a
+   distinct switch — pill shape, dashed border, a hollow status dot that fills
+   when engaged — so it never reads as a sibling of the solid-fill variable
+   chips above it. */
+.viewer__viewtoggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--parchment-dim);
+  background: rgba(7, 9, 18, 0.5);
+  border: 1px dashed var(--line-strong);
+  border-radius: 999px;
+  padding: 0.34rem 0.85rem 0.34rem 0.65rem;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.viewer__viewtoggle:hover:not(:disabled) {
+  color: var(--parchment);
+  border-color: var(--line-amber);
+}
+.viewer__viewtoggle[aria-pressed="true"] {
+  color: var(--amber);
+  border-style: solid;
+  border-color: var(--amber);
+  background: rgba(240, 169, 76, 0.08);
+}
+.viewer__viewtoggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.viewer__viewtoggle-dot {
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: transparent;
+  transition: background 0.2s var(--ease);
+}
+.viewer__viewtoggle[aria-pressed="true"] .viewer__viewtoggle-dot {
+  background: var(--amber);
+}
+
+.viewer__scrub {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.viewer__play {
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  color: var(--amber);
+  background: transparent;
+  border: 1px solid var(--line-amber);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.viewer__play:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.viewer__range {
+  flex: 1;
+  accent-color: var(--amber);
+  cursor: pointer;
+}
+.viewer__range:disabled {
+  opacity: 0.4;
+}
+
+.viewer__legend {
+  width: 8rem;
+  height: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.viewer__legend-range {
+  font-size: 0.7rem;
+  color: var(--parchment-faint);
+}
+
+.viewer__caption {
+  margin-block-start: 1rem;
+  font-size: var(--text-sm);
+  color: var(--parchment-dim);
+  max-width: var(--measure);
+}
+
+@media (max-width: 40rem) {
+  .viewer__stages--split {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,5 @@
+# Optional acceleration for the solver inner loop (spec §4: "optionally Numba").
+# Kept out of requirements.txt because Numba's wheels can lag new CPython
+# releases; the solver runs in pure NumPy without it.
+-r requirements.txt
+numba>=0.60

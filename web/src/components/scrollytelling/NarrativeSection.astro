@@ -1,0 +1,48 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import StructureDiagram from "./StructureDiagram.astro";
+import ProjectionFigure from "./ProjectionFigure.astro";
+import FalsificationChart from "./FalsificationChart.astro";
+import BullseyeFigure from "./BullseyeFigure.tsx";
+import CycloneCompare from "./CycloneCompare.tsx";
+import WaveField from "./WaveField.tsx";
+
+interface Props {
+  entry: CollectionEntry<"narrative">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { eyebrow, title, visual, backdrop } = entry.data;
+const anchor = entry.id.replace(/^\d+-/, "");
+const solo = visual === "none";
+---
+
+<section
+  class="chapter"
+  data-backdrop={backdrop}
+  data-chapter={anchor}
+  id={anchor}
+  aria-labelledby={`${anchor}-h`}
+>
+  <div class:list={["chapter__grid", "shell", { "chapter__grid--solo": solo }]}>
+    <div class="chapter__text">
+      <p class="eyebrow" data-reveal>{eyebrow}</p>
+      <h2 id={`${anchor}-h`} class="chapter__title" data-reveal>{title}</h2>
+      <div class="chapter__prose" data-reveal><Content /></div>
+    </div>
+
+    {
+      !solo && (
+        <div class="chapter__visual" data-reveal>
+          {visual === "structure" && <StructureDiagram />}
+          {visual === "projection" && <ProjectionFigure />}
+          {visual === "chart" && <FalsificationChart />}
+          {visual === "bullseye" && <BullseyeFigure client:visible />}
+          {visual === "cyclones" && <CycloneCompare client:visible />}
+          {visual === "waves" && <WaveField client:visible />}
+        </div>
+      )
+    }
+  </div>
+</section>

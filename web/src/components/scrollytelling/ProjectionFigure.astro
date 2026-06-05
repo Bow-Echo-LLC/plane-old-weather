@@ -1,0 +1,140 @@
+---
+// Azimuthal-equidistant projection: a globe's latitude circles become concentric
+// rings on the disc. Ring/arc strokes carry [data-draw] so the scroll controller
+// can scrub them on (stroke-dashoffset). Reduced-motion / no-JS shows them drawn.
+const LATS = [
+  { r: 26, label: "90°N" },
+  { r: 66, label: "45°N" },
+  { r: 106, label: "0° — equator" },
+  { r: 146, label: "45°S" },
+  { r: 188, label: "90°S — the rim" },
+];
+const DCX = 410;
+const DCY = 212;
+---
+
+<figure class="fig projection">
+  <svg viewBox="0 0 640 420" role="img" aria-labelledby="proj-title">
+    <title id="proj-title">
+      A globe's latitude circles re-projected onto a flat disc: the North Pole
+      becomes the center, the equator a mid-circle, and the South Pole the
+      entire outer rim.
+    </title>
+
+    <!-- globe -->
+    <g transform="translate(120 212)">
+      <circle class="globe" r="86"></circle>
+      {
+        [-58, -30, 0, 30, 58].map((lat) => (
+          <ellipse
+            class="globe-lat"
+            data-draw
+            cx="0"
+            cy={lat * 1.35}
+            rx={86 * Math.cos((lat * Math.PI) / 180)}
+            ry={11 * Math.cos((lat * Math.PI) / 180) + 3}
+          />
+        ))
+      }
+      <circle class="pole" cx="0" cy="-86" r="3"></circle>
+      <text class="lbl dim" x="0" y="118" text-anchor="middle">the sphere</text>
+    </g>
+
+    <!-- mapping arrow -->
+    <path class="arrow" d="M 232 212 H 300"></path>
+    <path class="arrow-head" d="M 300 212 l -9 -5 v 10 z"></path>
+
+    <!-- disc of latitude rings -->
+    <g>
+      {
+        LATS.map((l) => (
+          <circle class="ring" data-draw cx={DCX} cy={DCY} r={l.r} />
+        ))
+      }
+      {
+        Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          return (
+            <line
+              class="spoke"
+              x1={DCX}
+              y1={DCY}
+              x2={DCX + 188 * Math.cos(a)}
+              y2={DCY + 188 * Math.sin(a)}
+            />
+          );
+        })
+      }
+      <circle class="pole" cx={DCX} cy={DCY} r="3.5"></circle>
+      <text class="lbl" x={DCX} y={DCY - 6} text-anchor="middle">90°N</text>
+      <text class="lbl amber" x={DCX} y={DCY + 106 + 16} text-anchor="middle"
+        >0° — equator</text
+      >
+      <text class="lbl dim" x={DCX} y={DCY + 188 + 18} text-anchor="middle"
+        >90°S — the rim</text
+      >
+    </g>
+  </svg>
+  <figcaption class="mono">Fig. 2 — latitude becomes radius.</figcaption>
+</figure>
+
+<style>
+  .fig {
+    margin: 0;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .globe {
+    fill: rgba(132, 169, 204, 0.05);
+    stroke: var(--astro-deep);
+    stroke-width: 1;
+  }
+  .globe-lat {
+    fill: none;
+    stroke: var(--astro);
+    stroke-width: 0.9;
+    opacity: 0.6;
+  }
+  .ring {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+  .ring:nth-of-type(3) {
+    stroke: var(--line-amber);
+  }
+  .spoke {
+    stroke: var(--line);
+    stroke-width: 0.6;
+  }
+  .pole {
+    fill: var(--amber);
+  }
+  .arrow {
+    stroke: var(--parchment-faint);
+    stroke-width: 1;
+  }
+  .arrow-head {
+    fill: var(--parchment-faint);
+  }
+  .lbl {
+    fill: var(--parchment-dim);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .lbl.dim {
+    fill: var(--parchment-faint);
+  }
+  .lbl.amber {
+    fill: var(--amber);
+  }
+  figcaption {
+    margin-top: 0.8rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    color: var(--parchment-faint);
+  }
+</style>

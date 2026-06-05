@@ -1,0 +1,128 @@
+---
+// Cyclone rotation rate vs latitude. The sphere predicts f = 2Ω·sin(latitude) —
+// zero at the equator, rising to the poles, as observed. The flat disc predicts
+// a flat line (f-plane) or nothing (f = 0). Lines carry [data-draw] for the
+// scroll controller to stroke on; reduced-motion / no-JS shows them drawn.
+const W = 620;
+const H = 380;
+const pad = { l: 60, r: 24, t: 28, b: 52 };
+const px = (lat: number) => pad.l + (lat / 90) * (W - pad.l - pad.r);
+const py = (v: number) => H - pad.b - v * (H - pad.t - pad.b);
+
+const sphere = Array.from({ length: 46 }, (_, i) => {
+  const lat = i * 2;
+  return `${px(lat).toFixed(1)},${py(Math.sin((lat * Math.PI) / 180)).toFixed(1)}`;
+}).join(" ");
+const discY = py(0.46);
+const xticks = [0, 30, 60, 90];
+const yticks = [0, 0.5, 1];
+---
+
+<figure class="fig chart">
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="chart-title">
+    <title id="chart-title">
+      A chart of cyclone rotation rate against latitude. The spherical Earth's
+      curve rises from zero at the equator to a maximum at the poles; the flat
+      disc's prediction is a flat horizontal line, the same at every latitude.
+    </title>
+
+    <!-- gridlines + axes -->
+    {
+      yticks.map((v) => (
+        <line class="grid" x1={pad.l} y1={py(v)} x2={W - pad.r} y2={py(v)} />
+      ))
+    }
+    <line class="axis" x1={pad.l} y1={py(0)} x2={W - pad.r} y2={py(0)}></line>
+    <line class="axis" x1={pad.l} y1={pad.t} x2={pad.l} y2={py(0)}></line>
+    {
+      xticks.map((lat) => (
+        <text class="tick mono" x={px(lat)} y={py(0) + 20} text-anchor="middle">
+          {lat}°
+        </text>
+      ))
+    }
+    <text
+      class="axislabel mono"
+      x={(pad.l + W - pad.r) / 2}
+      y={H - 12}
+      text-anchor="middle">latitude</text
+    >
+    <text
+      class="axislabel mono"
+      transform={`translate(16 ${(pad.t + py(0)) / 2}) rotate(-90)`}
+      text-anchor="middle">cyclone spin →</text
+    >
+
+    <!-- the two predictions -->
+    <polyline class="curve sphere" data-draw points={sphere}></polyline>
+    <line
+      class="curve disc"
+      data-draw
+      x1={px(0)}
+      y1={discY}
+      x2={px(90)}
+      y2={discY}></line>
+
+    <!-- inline legend -->
+    <g transform={`translate(${pad.l + 14} ${pad.t + 6})`}>
+      <line class="curve sphere" x1="0" y1="0" x2="22" y2="0"></line>
+      <text class="legend mono" x="30" y="4">sphere — climbs with latitude</text
+      >
+      <line class="curve disc" x1="0" y1="20" x2="22" y2="20"></line>
+      <text class="legend mono" x="30" y="24"
+        >flat disc — identical everywhere</text
+      >
+    </g>
+  </svg>
+  <figcaption class="fig-cap mono">
+    Fig. 6 — the prediction that fails.
+    <span class="sr-only"
+      >Cyclone rotation rate against latitude: the sphere's curve rises from
+      zero at the equator to a maximum at the poles, matching observations,
+      while the flat disc predicts the same rate at every latitude.</span
+    >
+  </figcaption>
+</figure>
+
+<style>
+  .fig {
+    margin: 0;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .grid {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .axis {
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+  .tick,
+  .axislabel,
+  .legend {
+    fill: var(--parchment-faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .legend {
+    fill: var(--parchment-dim);
+  }
+  .curve {
+    fill: none;
+    stroke-width: 2;
+  }
+  .curve.sphere {
+    stroke: var(--amber);
+  }
+  .curve.disc {
+    stroke: var(--astro);
+    stroke-dasharray: 5 5;
+  }
+  figcaption {
+    margin-top: 0.8rem;
+  }
+</style>

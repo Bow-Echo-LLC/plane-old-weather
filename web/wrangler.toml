@@ -1,0 +1,5 @@
+# Cloudflare Pages project config (used by `wrangler pages deploy` and read by
+# the Pages Git integration). Pure static output — no Workers/Functions.
+name = "plane-old-weather"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-06-04"
